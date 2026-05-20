@@ -9,6 +9,7 @@ DATA_DIR = Path(os.getenv("DATA_DIR", Path(__file__).resolve().parent.parent.par
 # =========================
 # LAYER DIRECTORIES
 # =========================
+LOGS_DIR = DATA_DIR / "logs"
 LANDING_DIR = DATA_DIR / "landing"
 BRONZE_DIR = DATA_DIR / "bronze"
 SILVER_DIR = DATA_DIR / "silver"
@@ -17,6 +18,9 @@ GOLD_DIR   = DATA_DIR / "gold"
 # =========================
 # FILE HELPERS
 # =========================
+def log_file(filename: str) -> Path:
+    return LOGS_DIR / filename
+
 def landing_file(filename: str) -> Path:
     return LANDING_DIR / filename
 
@@ -39,3 +43,4 @@ def debug_paths():
     print("BRONZE_DIR:", BRONZE_DIR)
     print("SILVER_DIR:", SILVER_DIR)
     print("GOLD_DIR  :", GOLD_DIR)
+    print("LOGS_DIR  :", LOGS_DIR)
