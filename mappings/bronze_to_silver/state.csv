@@ -1,0 +1,5 @@
+source_database	source_schema	source_table	source_field	target_database	target_schema	target_table	target_field	sql_transform	python_transform	lookup_table
+blixhealth	bronze	us_zips			silver	state	state_id	autoincrement		
+blixhealth	bronze	us_zips	state_id		silver	state	state_code	UPPER(TRIM(state_id))	state_id.trim().upper()	
+blixhealth	bronze	us_zips	state_name		silver	state	state_name			
+blixhealth	bronze	us_zips	county_fips		silver	state	fips_code	LEFT(TRIM(county_fips), 2)	county_fips.strip()[:2]	
