@@ -34,6 +34,7 @@ x-airflow-common: &airflow-common
     - ./logs:/opt/airflow/logs
     - ./config:/opt/airflow/config
     - ./plugins:/opt/airflow/plugins
+    - ./models:/opt/airflow/models
 
   networks:
     - internal
