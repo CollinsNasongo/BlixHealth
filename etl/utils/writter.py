@@ -3,6 +3,8 @@ from pathlib import Path
 from datetime import datetime, timezone
 
 import pandas as pd
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 from etl.config.paths import LANDING_DIR, LOGS_DIR, BRONZE_DIR
 from etl.utils.logger import log_dataset_run
@@ -36,15 +38,17 @@ def already_processed_check(dataset: str, source_file: str) -> bool:
 
 
 
-def write_to_bronze( run_id: str, dataset: str, source_file: Path) -> Path:
-    try:
+def write_to_bronze(run_id: str, dataset: str, source_file: Path) -> Path:
+    bronze_file = None
 
+    try:
         # Read source file
         df = pd.read_csv(source_file)
 
         # Add bronze metadata
         df["ingest_timestamp"] = (
-            datetime.now(timezone.utc).isoformat()
+            datetime.now(timezone.utc)
+            .isoformat()
         )
 
         # Create bronze dataset folder
@@ -61,13 +65,20 @@ def write_to_bronze( run_id: str, dataset: str, source_file: Path) -> Path:
         # Build bronze filename
         bronze_file = (
             bronze_dataset_dir
-            / f"bronze_{source_file.name}"
+            / f"{source_file.stem}.parquet"
         )
 
-        # Write bronze file
-        df.to_csv(
+        # Convert pandas -> Arrow Table
+        table = pa.Table.from_pandas(
+            df,
+            preserve_index=False
+        )
+
+        # Write parquet
+        pq.write_table(
+            table,
             bronze_file,
-            index=False
+            compression="snappy"
         )
 
         # Log success
@@ -93,7 +104,11 @@ def write_to_bronze( run_id: str, dataset: str, source_file: Path) -> Path:
             run_id=run_id,
             dataset=dataset,
             source_file=source_file.name,
-            target_file=bronze_file.name,
+            target_file=(
+                bronze_file.name
+                if bronze_file
+                else None
+            ),
             status="FAILED",
             error_message=str(e)
         )
