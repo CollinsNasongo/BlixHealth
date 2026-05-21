@@ -75,6 +75,7 @@ def write_to_bronze( run_id: str, dataset: str, source_file: Path) -> Path:
             run_id=run_id,
             dataset=dataset,
             source_file=source_file.name,
+            target_file=bronze_file.name,
             status="SUCCESS",
             records_processed=len(df)
         )
@@ -92,6 +93,7 @@ def write_to_bronze( run_id: str, dataset: str, source_file: Path) -> Path:
             run_id=run_id,
             dataset=dataset,
             source_file=source_file.name,
+            target_file=bronze_file.name,
             status="FAILED",
             error_message=str(e)
         )
