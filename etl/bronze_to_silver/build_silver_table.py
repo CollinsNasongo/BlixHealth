@@ -13,12 +13,17 @@ from sqlalchemy import (
 
 from etl.config.paths import (
     BRONZE_DIR,
-    SILVER_DIR,
     BRONZE_TO_SILVER_MAPPINGS_DIR
+)
+
+from etl.transforms.transforms_registry import (
+    TRANSFORM_REGISTRY, SYSTEM_TRANSFORMS
 )
 
 from models.registry import get_model
 
+from models.base import Base
+from sqlalchemy.engine import Engine
 
 # =========================================================
 # LOAD MAPPING
@@ -42,6 +47,83 @@ def load_mapping(dataset: str) -> pd.DataFrame:
 
     return pd.read_excel(mapping_path)
 
+# =========================================================
+# VALIDATE MAPPING STRUCTURE
+# =========================================================
+def validate_mapping_structure(
+    mapping_df: pd.DataFrame
+) -> None:
+
+    required_columns = {
+        "source_database",
+        "source_schema",
+        "source_table",
+        "source_field",
+        "target_database",
+        "target_schema",
+        "target_table",
+        "target_field",
+        "sql_transform",
+        "python_transform",
+        "lookup_table",
+    }
+
+    missing_columns = sorted(
+        required_columns - set(mapping_df.columns)
+    )
+
+    if missing_columns:
+        raise ValueError(
+            f"Mapping is missing required columns: "
+            f"{missing_columns}"
+        )
+
+# =========================================================
+# VALIDATE MAPPING COLUMNS
+# =========================================================
+def validate_mapping_columns(mapping_df: pd.DataFrame, model: type[Base]) -> None:
+
+    model_columns = {
+        column.name
+        for column in model.__table__.columns
+    }
+
+    target_columns = set(
+        mapping_df["target_field"]
+    )
+
+    missing_columns = sorted(
+        target_columns - model_columns
+    )
+
+    if missing_columns:
+        raise ValueError(
+            f"Target columns not found in model "
+            f"{model.__name__}: {missing_columns}"
+        )
+    
+# =========================================================
+# VALIDATE TARGET OBJECT
+# =========================================================
+def validate_target_object(
+    mapping_df: pd.DataFrame
+) -> None:
+
+    if mapping_df["target_database"].nunique() != 1:
+        raise ValueError(
+            "Mapping contains multiple target databases."
+        )
+
+    if mapping_df["target_schema"].nunique() != 1:
+        raise ValueError(
+            "Mapping contains multiple target schemas."
+        )
+
+    if mapping_df["target_table"].nunique() != 1:
+        raise ValueError(
+            "Mapping contains multiple target tables."
+        )
+
 
 # =========================================================
 # LOAD BRONZE DATA
@@ -58,63 +140,9 @@ def get_bronze_files(dataset: str) -> list[Path]:
 
 
 # =========================================================
-# PYTHON TRANSFORM
-# =========================================================
-def apply_python_transform(source: pd.Series, transform: str, df: pd.DataFrame) -> pd.Series:
-
-    return eval(
-        transform,
-        {"pd": pd},
-        {
-            "source": source,
-            "df": df
-        }
-    )
-
-
-# =========================================================
-# LOOKUP
-# =========================================================
-def perform_lookup(
-    source_series: pd.Series,
-    lookup_table: str
-) -> pd.Series:
-
-    """
-    Placeholder.
-
-    Future:
-        Load lookup table from
-        SQLAlchemy reference tables.
-    """
-
-    return source_series
-
-
-# =========================================================
-# SURROGATE KEY
-# =========================================================
-def generate_surrogate_key(
-    df: pd.DataFrame,
-    key_name: str
-) -> pd.DataFrame:
-
-    df.insert(
-        0,
-        key_name,
-        range(1, len(df) + 1)
-    )
-
-    return df
-
-
-# =========================================================
 # VALIDATE MODEL COLUMNS
 # =========================================================
-def validate_columns_exist(
-    df: pd.DataFrame,
-    model
-) -> None:
+def validate_columns_exist(df: pd.DataFrame, model: type[Base]) -> None:
 
     model_columns = {
         column.name
@@ -134,30 +162,94 @@ def validate_columns_exist(
             f"{model.__name__}: "
             f"{missing_columns}"
         )
-
-
+    
 # =========================================================
-# VALIDATE PRIMARY KEYS
+# VALIDATE TRANSFORMS
 # =========================================================
-def validate_primary_keys(
-    df: pd.DataFrame,
-    model
+def validate_transforms(
+    transforms: str
 ) -> None:
 
-    primary_keys = [
-        column.name
-        for column
-        in model.__table__.primary_key.columns
+    if pd.isna(transforms):
+        return
+
+    parsed_transforms = [
+        transform.strip().lower()
+        for transform in transforms.split("|")
+        if transform.strip()
     ]
 
-    for primary_key in primary_keys:
+    if (
+        "autoincrement" in parsed_transforms
+        and len(parsed_transforms) > 1
+    ):
+        raise ValueError(
+            "'autoincrement' cannot be combined "
+            "with other transforms"
+        )
 
-        if primary_key not in df.columns:
+# =========================================================
+# APPLY TRANSFORMS
+# =========================================================
+def apply_transform(
+    source: pd.Series,
+    transforms: str
+) -> pd.Series:
 
+    validate_transforms(
+        transforms
+    )
+
+    if pd.isna(transforms):
+        return source
+
+    result = source
+
+    for transform in transforms.split("|"):
+
+        transform = transform.strip().lower()
+
+        if not transform:
+            continue
+
+        if transform in SYSTEM_TRANSFORMS:
+            continue
+
+        try:
+
+            if ":" in transform:
+
+                transform_name, *parameters = (
+                    transform.split(":")
+                )
+
+                result = TRANSFORM_REGISTRY[
+                    transform_name
+                ](
+                    result,
+                    *map(int, parameters)
+                )
+
+            else:
+
+                result = TRANSFORM_REGISTRY[
+                    transform
+                ](
+                    result
+                )
+
+        except KeyError:
             raise ValueError(
-                f"Primary key missing: "
-                f"{primary_key}"
+                f"Unsupported transform '{transform}'"
             )
+
+        except ValueError as e:
+            raise ValueError(
+                f"Invalid parameters for transform "
+                f"'{transform}': {e}"
+            ) from e
+
+    return result
 
 
 # =========================================================
@@ -165,7 +257,7 @@ def validate_primary_keys(
 # =========================================================
 def validate_nullable_rules(
     df: pd.DataFrame,
-    model
+    model: type[Base]
 ) -> None:
 
     for column in model.__table__.columns:
@@ -190,7 +282,7 @@ def validate_nullable_rules(
 # =========================================================
 def validate_datatypes(
     df: pd.DataFrame,
-    model
+    model: type[Base]
 ) -> None:
 
     for column in model.__table__.columns:
@@ -277,15 +369,10 @@ def validate_datatypes(
 # =========================================================
 def validate_target_model(
     df: pd.DataFrame,
-    model
+    model: type[Base]
 ) -> None:
 
     validate_columns_exist(
-        df,
-        model
-    )
-
-    validate_primary_keys(
         df,
         model
     )
@@ -305,140 +392,57 @@ def validate_target_model(
 # WRITE SILVER
 # =========================================================
 def write_silver_table(
-    dataset: str,
-    df: pd.DataFrame
-) -> Path:
-
-    dataset_path = (
-        Path(SILVER_DIR)
-        / dataset
-    )
-
-    dataset_path.mkdir(
-        parents=True,
-        exist_ok=True
-    )
-
-    target_file = (
-        dataset_path
-        / f"{dataset}.parquet"
-    )
-
-    df.to_parquet(
-        target_file,
-        index=False
-    )
-
-    return target_file
-
-
-# =========================================================
-# BUILD SILVER TABLE
-# =========================================================
-def build_silver_table(
-    dataset: str
+    mapping_df: pd.DataFrame,
+    df: pd.DataFrame,
+    engine: Engine
 ) -> None:
-
-    mapping_df = load_mapping(
-        dataset
+    
+    target_database = (
+        mapping_df["target_database"]
+        .iloc[0]
+        .lower()
     )
-
-    bronze_df = load_bronze_dataset(
-        dataset
-    )
-
-    target_df = pd.DataFrame()
-
-    for _, mapping in mapping_df.iterrows():
-
-        source_field = mapping["source_field"]
-        target_field = mapping["target_field"]
-
-        source = bronze_df[source_field]
-
-        if pd.notna(
-            mapping["lookup_table"]
-        ):
-
-            target_df[target_field] = (
-                perform_lookup(
-                    source,
-                    mapping["lookup_table"]
-                )
-            )
-
-        elif pd.notna(
-            mapping["python_transform"]
-        ):
-
-            target_df[target_field] = (
-                apply_python_transform(
-                    source,
-                    mapping["python_transform"],
-                    bronze_df
-                )
-            )
-
-        else:
-
-            target_df[target_field] = source
-
-    # -----------------------------------------
-    # Load target model
-    # -----------------------------------------
 
     target_schema = (
-        mapping_df.iloc[0]
-        ["target_schema"]
+        mapping_df["target_schema"]
+        .iloc[0]
+        .lower()
     )
 
     target_table = (
-        mapping_df.iloc[0]
-        ["target_table"]
+        mapping_df["target_table"]
+        .iloc[0]
+        .lower()
     )
 
     model = get_model(
-        target_schema,
-        target_table
+        database_name=target_database,
+        schema_name=target_schema,
+        table_name=target_table
     )
-
-    # -----------------------------------------
-    # Generate surrogate key
-    # -----------------------------------------
-
-    primary_keys = [
-        column.name
-        for column
-        in model.__table__.primary_key.columns
-    ]
-
-    if len(primary_keys) == 1:
-
-        primary_key = primary_keys[0]
-
-        if primary_key not in target_df.columns:
-
-            target_df = (
-                generate_surrogate_key(
-                    target_df,
-                    primary_key
-                )
-            )
-
-    # -----------------------------------------
-    # Validate against model
-    # -----------------------------------------
 
     validate_target_model(
-        target_df,
-        model
+    df=df,
+    model=model)
+
+    Base.metadata.create_all(
+        bind=engine,
+        tables=[model.__table__]
     )
 
-    # -----------------------------------------
-    # Write Silver
-    # -----------------------------------------
-
-    write_silver_table(
-        dataset,
-        target_df
+    try:
+        df.to_sql(
+        name=target_table,
+        schema=target_schema,
+        con=engine,
+        if_exists="append",
+        index=False,
+        method="multi"
     )
+        
+    except Exception as e:
+        raise RuntimeError(
+            f"Failed to write to silver table "
+            f"{target_database}.{target_schema}.{target_table}: "
+            f"{str(e)}"
+        ) from e
