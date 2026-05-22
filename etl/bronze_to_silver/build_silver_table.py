@@ -25,10 +25,7 @@ from models.registry import get_model
 # =========================================================
 def load_mapping(dataset: str) -> pd.DataFrame:
     
-    mapping_path = (
-        BRONZE_TO_SILVER_MAPPINGS_DIR
-        / f"{dataset.lower()}.xlsx"
-    )
+    mapping_path = (BRONZE_TO_SILVER_MAPPINGS_DIR / f"{dataset.lower()}.xlsx")
 
     if not mapping_path.exists():
 
@@ -49,43 +46,21 @@ def load_mapping(dataset: str) -> pd.DataFrame:
 # =========================================================
 # LOAD BRONZE DATA
 # =========================================================
-def load_bronze_dataset(
-    dataset: str
-) -> pd.DataFrame:
+def get_bronze_files(dataset: str) -> list[Path]:
 
-    dataset_path = (
-        Path(BRONZE_DIR)
-        / dataset
-    )
+    dataset_path = (Path(BRONZE_DIR) / dataset)
 
-    parquet_files = list(
-        dataset_path.glob("*.parquet")
-    )
+    parquet_files = sorted(dataset_path.glob("*.parquet"))
 
-    if not parquet_files:
-        raise FileNotFoundError(
-            f"No parquet files found for {dataset}"
-        )
+    if not parquet_files: raise FileNotFoundError(f"No parquet files found for {dataset}")
 
-    frames = [
-        pd.read_parquet(file)
-        for file in parquet_files
-    ]
-
-    return pd.concat(
-        frames,
-        ignore_index=True
-    )
+    return parquet_files
 
 
 # =========================================================
 # PYTHON TRANSFORM
 # =========================================================
-def apply_python_transform(
-    source: pd.Series,
-    transform: str,
-    df: pd.DataFrame
-) -> pd.Series:
+def apply_python_transform(source: pd.Series, transform: str, df: pd.DataFrame) -> pd.Series:
 
     return eval(
         transform,
