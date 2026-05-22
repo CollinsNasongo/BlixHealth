@@ -24,11 +24,24 @@ from models.registry import get_model
 # LOAD MAPPING
 # =========================================================
 def load_mapping(dataset: str) -> pd.DataFrame:
-
-    mapping_path = (BRONZE_TO_SILVER_MAPPINGS_DIR / f"{dataset.lower()}.xlsx")
+    
+    mapping_path = (
+        BRONZE_TO_SILVER_MAPPINGS_DIR
+        / f"{dataset.lower()}.xlsx"
+    )
 
     if not mapping_path.exists():
-        raise FileNotFoundError(f"Mapping file not found: {mapping_path}")
+
+        available_files = sorted(
+            p.name
+            for p in BRONZE_TO_SILVER_MAPPINGS_DIR.glob("*.xlsx")
+        )
+
+        raise FileNotFoundError(
+            f"Mapping for dataset '{dataset}' was not found.\n"
+            f"Expected file: {mapping_path.name}\n"
+            f"Available files: {available_files}"
+        )
 
     return pd.read_excel(mapping_path)
 

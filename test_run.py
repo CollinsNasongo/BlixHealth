@@ -8,7 +8,7 @@ def test_get_model():
     print(model.__name__)
 
 def test_load_mapping():
-    mapping = load_mapping("state")
+    mapping = load_mapping("practitioner")
     assert mapping is not None
     print(mapping.head())
 
