@@ -1,17 +1,18 @@
-from etl.extraction.extract_from_landing import extract_dataset_to_bronze
+from etl.bronze_to_silver.build_silver_table import load_mapping
+from models.registry import get_model
 
 
-def main():
-    print("Calling extract_dataset_to_bronze...")
+def test_get_model():
+    model = get_model("silver", "practitioner")
+    assert model.__name__ == "Practitioner"
+    print(model.__name__)
 
-    result = extract_dataset_to_bronze(
-        dataset="providers"
-    )
-
-    print(f"Result: {result}")
+def test_load_mapping():
+    mapping = load_mapping("state")
+    assert mapping is not None
+    print(mapping.head())
 
 
 if __name__ == "__main__":
-    print("Starting ETL pipeline...")
-    main()
-    print("ETL pipeline completed.")
+    #test_get_model()
+    test_load_mapping()

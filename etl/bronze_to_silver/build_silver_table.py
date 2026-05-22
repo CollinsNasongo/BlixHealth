@@ -25,16 +25,12 @@ from models.registry import get_model
 # =========================================================
 def load_mapping(dataset: str) -> pd.DataFrame:
 
-    mapping_path = (
-        BRONZE_TO_SILVER_MAPPINGS_DIR(dataset)
-    )
+    mapping_path = (BRONZE_TO_SILVER_MAPPINGS_DIR / f"{dataset.lower()}.xlsx")
 
     if not mapping_path.exists():
-        raise FileNotFoundError(
-            f"Mapping file not found: {mapping_path}"
-        )
+        raise FileNotFoundError(f"Mapping file not found: {mapping_path}")
 
-    return pd.read_csv(mapping_path)
+    return pd.read_excel(mapping_path)
 
 
 # =========================================================
