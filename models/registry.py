@@ -1,3 +1,5 @@
+from models.base import Base
+
 from models.silver.practitioner import Practitioner
 from models.silver.organization import Organization
 from models.silver.location import Location
@@ -84,10 +86,8 @@ MODEL_REGISTRY = {
 # REGISTRY HELPER
 # =====================================================
 
-def get_model(
-    schema_name: str,
-    table_name: str,
-):
+def get_model(schema_name: str, table_name: str) -> type[Base]:
+    
     key = (
         schema_name.lower(),
         table_name.lower(),

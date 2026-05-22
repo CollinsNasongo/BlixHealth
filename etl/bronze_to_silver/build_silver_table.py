@@ -23,9 +23,7 @@ from models.registry import get_model
 # =========================================================
 # LOAD MAPPING
 # =========================================================
-def load_mapping(
-    dataset: str
-) -> pd.DataFrame:
+def load_mapping(dataset: str) -> pd.DataFrame:
 
     mapping_path = (
         BRONZE_TO_SILVER_MAPPINGS_DIR(dataset)
