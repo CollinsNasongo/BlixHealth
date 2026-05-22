@@ -389,9 +389,9 @@ def validate_target_model(
 
 
 # =========================================================
-# WRITE SILVER
+# WRITE TABLE
 # =========================================================
-def write_silver_table(
+def write_table(
     mapping_df: pd.DataFrame,
     df: pd.DataFrame,
     engine: Engine
@@ -442,7 +442,7 @@ def write_silver_table(
         
     except Exception as e:
         raise RuntimeError(
-            f"Failed to write to silver table "
+            f"Failed to write to table "
             f"{target_database}.{target_schema}.{target_table}: "
             f"{str(e)}"
         ) from e

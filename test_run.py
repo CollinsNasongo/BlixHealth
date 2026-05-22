@@ -1,4 +1,4 @@
-from etl.bronze_to_silver.build_silver_table import get_bronze_files
+from etl.transforms.table_builder import get_bronze_files
 from models.registry import get_model
 
 
