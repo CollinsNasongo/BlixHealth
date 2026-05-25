@@ -50,9 +50,7 @@ def load_mapping(dataset: str) -> pd.DataFrame:
 # =========================================================
 # VALIDATE MAPPING STRUCTURE
 # =========================================================
-def validate_mapping_structure(
-    mapping_df: pd.DataFrame
-) -> None:
+def validate_mapping_structure(mapping_df: pd.DataFrame) -> None:
 
     required_columns = {
         "source_database",
@@ -105,9 +103,7 @@ def validate_mapping_columns(mapping_df: pd.DataFrame, model: type[Base]) -> Non
 # =========================================================
 # VALIDATE TARGET OBJECT
 # =========================================================
-def validate_target_object(
-    mapping_df: pd.DataFrame
-) -> None:
+def validate_target_object(mapping_df: pd.DataFrame) -> None:
 
     if mapping_df["target_database"].nunique() != 1:
         raise ValueError(
@@ -128,15 +124,15 @@ def validate_target_object(
 # =========================================================
 # LOAD BRONZE DATA
 # =========================================================
-def get_bronze_files(dataset: str) -> list[Path]:
+def get_source_files(dataset: str) -> list[Path]:
 
     dataset_path = (Path(BRONZE_DIR) / dataset)
 
-    parquet_files = sorted(dataset_path.glob("*.parquet"))
+    parquet_files_list = sorted(dataset_path.glob("*.parquet"))
 
-    if not parquet_files: raise FileNotFoundError(f"No parquet files found for {dataset}")
+    if not parquet_files_list: raise FileNotFoundError(f"No parquet files found for {dataset}")
 
-    return parquet_files
+    return parquet_files_list
 
 
 # =========================================================
@@ -166,9 +162,7 @@ def validate_columns_exist(df: pd.DataFrame, model: type[Base]) -> None:
 # =========================================================
 # VALIDATE TRANSFORMS
 # =========================================================
-def validate_transforms(
-    transforms: str
-) -> None:
+def validate_transforms(transforms: str) -> None:
 
     if pd.isna(transforms):
         return
