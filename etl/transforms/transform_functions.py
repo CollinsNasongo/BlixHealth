@@ -2,15 +2,27 @@ import pandas as pd
 
 
 def upper(source: pd.Series) -> pd.Series:
-    return source.str.upper()
+    return (
+        source
+        .astype(str)
+        .str.upper()
+    )
 
 
 def lower(source: pd.Series) -> pd.Series:
-    return source.str.lower()
+    return (
+        source
+        .astype(str)
+        .str.lower()
+    )
 
 
 def strip(source: pd.Series) -> pd.Series:
-    return source.str.strip()
+    return (
+        source
+        .astype(str)
+        .str.strip()
+    )
 
 
 def to_datetime(source: pd.Series) -> pd.Series:
@@ -22,6 +34,7 @@ def to_integer(source: pd.Series) -> pd.Series:
         source,
         errors="coerce"
     ).astype("Int64")
+
 
 def substring(
     source: pd.Series,

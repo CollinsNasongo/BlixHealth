@@ -185,10 +185,7 @@ def validate_transforms(transforms: str) -> None:
 # =========================================================
 # APPLY TRANSFORMS
 # =========================================================
-def apply_transform(
-    source: pd.Series,
-    transforms: str
-) -> pd.Series:
+def apply_transform(source: pd.Series, transforms: str) -> pd.Series:
 
     validate_transforms(
         transforms
@@ -361,10 +358,7 @@ def validate_datatypes(
 # =========================================================
 # MODEL VALIDATION
 # =========================================================
-def validate_target_model(
-    df: pd.DataFrame,
-    model: type[Base]
-) -> None:
+def validate_target_model(df: pd.DataFrame, model: type[Base]) -> None:
 
     validate_columns_exist(
         df,
@@ -385,11 +379,7 @@ def validate_target_model(
 # =========================================================
 # WRITE TABLE
 # =========================================================
-def write_table(
-    mapping_df: pd.DataFrame,
-    df: pd.DataFrame,
-    engine: Engine
-) -> None:
+def write_table(mapping_df: pd.DataFrame, df: pd.DataFrame, engine: Engine) -> None:
     
     target_database = (
         mapping_df["target_database"]
