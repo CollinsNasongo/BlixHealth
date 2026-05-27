@@ -421,7 +421,7 @@ def write_table(mapping_df: pd.DataFrame, df: pd.DataFrame, engine: Engine) -> N
         con=engine,
         if_exists="append",
         index=False,
-        method="multi"
+        chunksize=1000
     )
         
     except Exception as e:

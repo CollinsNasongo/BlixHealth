@@ -195,6 +195,9 @@ def apply_transforms_task() -> None:
             transforms=transforms,
         )
 
+    silver_df = silver_df.drop_duplicates(subset=["state_code", "state_name", "fips_code"]
+)
+
     logger.info(
         "Created silver dataframe with columns: %s",
         silver_df.columns.tolist(),
@@ -205,9 +208,7 @@ def apply_transforms_task() -> None:
         len(silver_df),
     )
 
-    engine = get_engine(
-        layer="silver"
-    )
+    engine = get_engine()
 
     logger.info(
         "Writing %s rows to %s.%s",

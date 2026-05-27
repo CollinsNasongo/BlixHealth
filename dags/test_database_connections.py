@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from airflow import DAG
-from airflow.operators.python import PythonOperator
+from airflow.providers.standard.operators.python import PythonOperator
 
 from etl.config.conn import (
     get_engine,
@@ -9,48 +9,24 @@ from etl.config.conn import (
 )
 
 
-def test_bronze_connection():
+def test_mssql_connection():
 
-    engine = get_engine("bronze")
-
-    test_connection(engine)
-
-
-def test_silver_connection():
-
-    engine = get_engine("silver")
-
-    test_connection(engine)
-
-
-def test_gold_connection():
-
-    engine = get_engine("gold")
+    engine = get_engine()
 
     test_connection(engine)
 
 
 with DAG(
-    dag_id="test_database_connections",
+    dag_id="test_database_connection",
     start_date=datetime(2025, 1, 1),
     schedule=None,
     catchup=False,
-    tags=["testing", "database"],
+    tags=["testing", "database", "mssql"],
 ) as dag:
 
-    bronze = PythonOperator(
-        task_id="test_bronze_connection",
-        python_callable=test_bronze_connection,
+    test_connection_task = PythonOperator(
+        task_id="test_mssql_connection",
+        python_callable=test_mssql_connection,
     )
 
-    silver = PythonOperator(
-        task_id="test_silver_connection",
-        python_callable=test_silver_connection,
-    )
-
-    gold = PythonOperator(
-        task_id="test_gold_connection",
-        python_callable=test_gold_connection,
-    )
-
-    bronze >> silver >> gold
+test_connection_task
