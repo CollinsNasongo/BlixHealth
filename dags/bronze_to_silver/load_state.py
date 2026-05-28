@@ -7,7 +7,7 @@ from airflow import DAG
 from airflow.providers.standard.operators.python import PythonOperator
 from etl.config.conn import get_engine
 
-from etl.transforms.table_builder import (
+from etl.extraction.table_builder import (
     load_mapping,
     validate_mapping_structure,
     validate_mapping_columns,

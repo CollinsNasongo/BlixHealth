@@ -1,6 +1,6 @@
 import pandas as pd
 
-
+# String transformations
 def upper(source: pd.Series) -> pd.Series:
     return (
         source
@@ -24,7 +24,17 @@ def strip(source: pd.Series) -> pd.Series:
         .str.strip()
     )
 
+def substring(source: pd.Series, start: int, length: int) -> pd.Series:
 
+    return (
+        source
+        .astype(str)
+        .str.strip()
+        .str[start:start + length]
+    )
+
+
+# Data type transformations
 def to_datetime(source: pd.Series) -> pd.Series:
     return pd.to_datetime(source)
 
@@ -36,15 +46,3 @@ def to_integer(source: pd.Series) -> pd.Series:
     ).astype("Int64")
 
 
-def substring(
-    source: pd.Series,
-    start: int,
-    length: int
-) -> pd.Series:
-
-    return (
-        source
-        .astype(str)
-        .str.strip()
-        .str[start:start + length]
-    )
