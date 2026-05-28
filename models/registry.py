@@ -38,6 +38,13 @@ from models.blixhealth.silver.organization_taxonomy_code import OrganizationTaxo
 from models.blixhealth.silver.organization_telephone_number import OrganizationTelephoneNumber
 
 
+from models.blixhealth.bronze.member import Member
+from models.blixhealth.bronze.encounter import Encounter
+from models.blixhealth.bronze.provider import Provider
+from models.blixhealth.bronze.us_zip import UsZip
+from models.blixhealth.bronze.taxonomy import Taxonomy
+
+
 MODEL_REGISTRY = {
 
     # Core
@@ -80,6 +87,13 @@ MODEL_REGISTRY = {
     ("blixhealth", "silver", "organization_location"): OrganizationLocation,
     ("blixhealth", "silver", "organization_taxonomy_code"): OrganizationTaxonomyCode,
     ("blixhealth", "silver", "organization_telephone_number"): OrganizationTelephoneNumber,
+
+    # Bronze
+    ("blixhealth", "bronze", "member"): Member,
+    ("blixhealth", "bronze", "encounter"): Encounter,
+    ("blixhealth", "bronze", "provider"): Provider,
+    ("blixhealth", "bronze", "us_zip"): UsZip,
+    ("blixhealth", "bronze", "taxonomy"): Taxonomy,
 }
 
 # =====================================================
