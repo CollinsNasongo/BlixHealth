@@ -26,7 +26,7 @@ class PractitionerTelephoneNumber(Base):
     __table_args__ = {"schema": "silver"}
 
     practitioner_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("silver.practitioner.practitioner_id"), primary_key=True, nullable=False)
-    telephone_number_type_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("silver.telephone_number_type.telephone_number_type_id"), primary_key=True, nullable=False)
+    telephone_number_type_id: Mapped[int] = mapped_column(Integer, ForeignKey("silver.telephone_number_type.telephone_number_type_id"), primary_key=True, nullable=False)
     telephone_number: Mapped[str] = mapped_column(String(50), primary_key=True, nullable=False)
     preference_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("silver.preference.preference_id"), nullable=True)
     period_start_date: Mapped[date] = mapped_column(Date, nullable=False)

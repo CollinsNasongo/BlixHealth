@@ -26,4 +26,4 @@ class ZipCode(Base):
     __table_args__ = {"schema": "silver"}
 
     zip_code: Mapped[str] = mapped_column(String(5), primary_key=True, nullable=False)
-    state_id: Mapped[int] = mapped_column(Integer, ForeignKey("state.state_id"), nullable=False)
+    state_id: Mapped[int] = mapped_column(Integer, ForeignKey("silver.state.state_id"), nullable=False)

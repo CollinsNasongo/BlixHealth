@@ -37,6 +37,7 @@ from models.blix_healthcare_db.silver.organization_location import OrganizationL
 from models.blix_healthcare_db.silver.organization_taxonomy_code import OrganizationTaxonomyCode
 from models.blix_healthcare_db.silver.organization_telephone_number import OrganizationTelephoneNumber
 from models.blix_healthcare_db.silver.practice_role_type import PracticeRoleType
+from models.blix_healthcare_db.silver.location_type import LocationType
 
 
 from models.blix_healthcare_db.bronze.member import Member
@@ -71,6 +72,7 @@ MODEL_REGISTRY = {
     ("blix_healthcare_db", "silver", "identification_type"): IdentificationType,
     ("blix_healthcare_db", "silver", "telephone_number_type"): TelephoneNumberType,
     ("blix_healthcare_db", "silver", "healthcare_specialty"): HealthcareSpecialty,
+    ("blix_healthcare_db", "silver", "location_type"): LocationType,
 
     # Practitioner Bridges
     ("blix_healthcare_db", "silver", "practitioner_identification"): PractitionerIdentification,
