@@ -23,6 +23,7 @@ from models.base import Base
 
 class Language(Base):
     __tablename__ = "language"
+    __table_args__ = {"schema": "silver"}
 
     language_id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     language_code: Mapped[str] = mapped_column(String(50), nullable=False)

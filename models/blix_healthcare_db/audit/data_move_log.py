@@ -15,7 +15,8 @@ from models.base import Base
 
 
 class DataMoveLog(Base):
-    __tablename__ = "audit_ingestion_log"
+    __tablename__ = "data_move_log"
+    __table_args__ = {"schema": "audit"}
 
     log_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
 

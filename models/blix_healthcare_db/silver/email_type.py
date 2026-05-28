@@ -23,6 +23,7 @@ from models.base import Base
 
 class EmailType(Base):
     __tablename__ = "email_type"
+    __table_args__ = {"schema": "silver"}
 
     email_type_id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     email_type_name: Mapped[str] = mapped_column(String(255), nullable=False)

@@ -18,7 +18,8 @@ from models.base import Base
 
 
 class UsZip(Base):
-    __tablename__ = "bronze_us_zip"
+    __tablename__ = "us_zip"
+    __table_args__ = {"schema": "bronze"}
 
     zip: Mapped[str] = mapped_column(String(10), primary_key=True, nullable=False)
 

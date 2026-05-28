@@ -23,6 +23,7 @@ from models.base import Base
 
 class HealthcareSpecialty(Base):
     __tablename__ = "healthcare_specialty"
+    __table_args__ = {"schema": "silver"}
 
     healthcare_specialty_id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     healthcare_specialty_name: Mapped[str] = mapped_column(String(255), nullable=False)

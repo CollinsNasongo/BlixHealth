@@ -23,6 +23,7 @@ from models.base import Base
 
 class Preference(Base):
     __tablename__ = "preference"
+    __table_args__ = {"schema": "silver"}
 
     preference_id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     preference_name: Mapped[str] = mapped_column(String(255), nullable=False)

@@ -17,7 +17,8 @@ from models.base import Base
 
 
 class Provider(Base):
-    __tablename__ = "bronze_provider"
+    __tablename__ = "provider"
+    __table_args__ = {"schema": "bronze"}
 
     provider_id: Mapped[str] = mapped_column(String(100), primary_key=True, nullable=False)
     internal_provider_id: Mapped[Optional[str]] = mapped_column(String(100))

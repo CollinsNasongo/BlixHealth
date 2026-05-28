@@ -19,7 +19,8 @@ from models.base import Base
 
 
 class Encounter(Base):
-    __tablename__ = "bronze_encounter"
+    __tablename__ = "encounter"
+    __table_args__ = {"schema": "bronze"}
 
     encounter_id: Mapped[str] = mapped_column(String(100), primary_key=True, nullable=False)
     encounter_number: Mapped[Optional[str]] = mapped_column(String(100))

@@ -23,6 +23,7 @@ from models.base import Base
 
 class LicenseType(Base):
     __tablename__ = "license_type"
+    __table_args__ = {"schema": "silver"}
 
     license_type_id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     license_type_name: Mapped[str] = mapped_column(String(255), nullable=False)

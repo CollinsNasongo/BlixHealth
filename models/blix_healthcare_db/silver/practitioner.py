@@ -23,6 +23,7 @@ from models.base import Base
 
 class Practitioner(Base):
     __tablename__ = "practitioner"
+    __table_args__ = {"schema": "silver"}
 
     practitioner_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, nullable=False)
     national_provider_id: Mapped[Optional[int]] = mapped_column(BigInteger, nullable=True)

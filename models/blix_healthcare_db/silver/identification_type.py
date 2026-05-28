@@ -23,6 +23,7 @@ from models.base import Base
 
 class IdentificationType(Base):
     __tablename__ = "identification_type"
+    __table_args__ = {"schema": "silver"}
 
     identification_type_id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     identification_type_code: Mapped[str] = mapped_column(String(50), nullable=False)

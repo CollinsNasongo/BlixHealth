@@ -19,7 +19,8 @@ from models.base import Base
 
 
 class Member(Base):
-    __tablename__ = "bronze_member"
+    __tablename__ = "member"
+    __table_args__ = {"schema": "bronze"}
 
     member_id: Mapped[str] = mapped_column(String(100), primary_key=True, nullable=False)
     subscriber_id: Mapped[Optional[str]] = mapped_column(String(100))

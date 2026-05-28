@@ -23,6 +23,7 @@ from models.base import Base
 
 class MaritalStatus(Base):
     __tablename__ = "marital_status"
+    __table_args__ = {"schema": "silver"}
 
     marital_status_id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     marital_status_name: Mapped[str] = mapped_column(String(255), nullable=False)

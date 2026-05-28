@@ -36,6 +36,7 @@ from models.blix_healthcare_db.silver.organization_email import OrganizationEmai
 from models.blix_healthcare_db.silver.organization_location import OrganizationLocation
 from models.blix_healthcare_db.silver.organization_taxonomy_code import OrganizationTaxonomyCode
 from models.blix_healthcare_db.silver.organization_telephone_number import OrganizationTelephoneNumber
+from models.blix_healthcare_db.silver.practice_role_type import PracticeRoleType
 
 
 from models.blix_healthcare_db.bronze.member import Member
@@ -89,7 +90,7 @@ MODEL_REGISTRY = {
     ("blix_healthcare_db", "silver", "organization_location"): OrganizationLocation,
     ("blix_healthcare_db", "silver", "organization_taxonomy_code"): OrganizationTaxonomyCode,
     ("blix_healthcare_db", "silver", "organization_telephone_number"): OrganizationTelephoneNumber,
-
+    ("blix_healthcare_db", "silver", "practice_role_type"): PracticeRoleType,
     # Bronze
     ("blix_healthcare_db", "bronze", "member"): Member,
     ("blix_healthcare_db", "bronze", "encounter"): Encounter,

@@ -23,8 +23,9 @@ from models.base import Base
 
 class TaxonomyCode(Base):
     __tablename__ = "taxonomy_code"
+    __table_args__ = {"schema": "silver"}
 
-    taxonomy_code_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, nullable=False)
+    taxonomy_code_id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     taxonomy_code: Mapped[str] = mapped_column(String(50), nullable=False)
     taxonomy_code_grouping: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     taxonomy_code_classification: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)

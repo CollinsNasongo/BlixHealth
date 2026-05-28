@@ -23,6 +23,7 @@ from models.base import Base
 
 class PracticeType(Base):
     __tablename__ = "practice_type"
+    __table_args__ = {"schema": "silver"}
 
     practice_type_id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     practice_type_name: Mapped[str] = mapped_column(String(255), nullable=False)

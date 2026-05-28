@@ -23,6 +23,7 @@ from models.base import Base
 
 class Location(Base):
     __tablename__ = "location"
+    __table_args__ = {"schema": "silver"}
 
     location_id: Mapped[Optional[int]] = mapped_column(Integer, primary_key=True, autoincrement=True, nullable=True)
     zip_code: Mapped[str] = mapped_column(String(5), ForeignKey("zip_code.zip_code"), nullable=False)

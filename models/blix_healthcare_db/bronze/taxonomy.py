@@ -15,7 +15,8 @@ from models.base import Base
 
 
 class Taxonomy(Base):
-    __tablename__ = "bronze_nucc_taxonomy"
+    __tablename__ = "taxonomy"
+    __table_args__ = {"schema": "bronze"}
 
     code: Mapped[str] = mapped_column(String(50), primary_key=True, nullable=False)
 

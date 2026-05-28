@@ -23,9 +23,10 @@ from models.base import Base
 
 class PractitionerSpecialty(Base):
     __tablename__ = "practitioner_specialty"
+    __table_args__ = {"schema": "silver"}
 
-    practitioner_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("practitioner.practitioner_id"), primary_key=True, nullable=False)
-    healthcare_specialty_id: Mapped[int] = mapped_column(Integer, ForeignKey("healthcare_specialty.healthcare_specialty_id"), primary_key=True, nullable=False)
-    preference_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("preference.preference_id"), nullable=True)
+    practitioner_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("silver.practitioner.practitioner_id"), primary_key=True, nullable=False)
+    healthcare_specialty_id: Mapped[int] = mapped_column(Integer, ForeignKey("silver.healthcare_specialty.healthcare_specialty_id"), primary_key=True, nullable=False)
+    preference_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("silver.preference.preference_id"), nullable=True)
     period_start_date: Mapped[date] = mapped_column(Date, nullable=False)
     period_end_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)

@@ -23,10 +23,11 @@ from models.base import Base
 
 class OrganizationLocation(Base):
     __tablename__ = "organization_location"
+    __table_args__ = {"schema": "silver"}
 
-    organization_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("organization.organization_id"), primary_key=True, nullable=False)
-    location_id: Mapped[int] = mapped_column(Integer, ForeignKey("location.location_id"), primary_key=True, nullable=False)
-    location_type_id: Mapped[int] = mapped_column(Integer, ForeignKey("location_type.location_type_id"), nullable=False)
-    preference_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("preference.preference_id"), nullable=True)
+    organization_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("silver.organization.organization_id"), primary_key=True, nullable=False)
+    location_id: Mapped[int] = mapped_column(Integer, ForeignKey("silver.location.location_id"), primary_key=True, nullable=False)
+    location_type_id: Mapped[int] = mapped_column(Integer, ForeignKey("silver.location_type.location_type_id"), nullable=False)
+    preference_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("silver.preference.preference_id"), nullable=True)
     period_start_date: Mapped[date] = mapped_column(Date, nullable=False)
     period_end_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)

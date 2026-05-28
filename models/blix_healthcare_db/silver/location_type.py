@@ -23,6 +23,7 @@ from models.base import Base
 
 class LocationType(Base):
     __tablename__ = "location_type"
+    __table_args__ = {"schema": "silver"}
 
     location_type_id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     location_type_name: Mapped[str] = mapped_column(String(255), nullable=False)

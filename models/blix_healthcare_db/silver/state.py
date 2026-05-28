@@ -23,6 +23,7 @@ from models.base import Base
 
 class State(Base):
     __tablename__ = "state"
+    __table_args__ = {"schema": "silver"}
 
     state_id: Mapped[Optional[int]] = mapped_column(Integer, primary_key=True, autoincrement=True, nullable=True)
     state_code: Mapped[str] = mapped_column(String(2), nullable=False)

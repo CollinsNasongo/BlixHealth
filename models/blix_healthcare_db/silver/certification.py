@@ -23,6 +23,7 @@ from models.base import Base
 
 class Certification(Base):
     __tablename__ = "certification"
+    __table_args__ = {"schema": "silver"}
 
     certification_id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     certificate_issuing_organization: Mapped[str] = mapped_column(String(255), nullable=False)

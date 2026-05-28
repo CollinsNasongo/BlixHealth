@@ -23,9 +23,10 @@ from models.base import Base
 
 class PractitionerIdentification(Base):
     __tablename__ = "practitioner_identification"
+    __table_args__ = {"schema": "silver"}
 
-    practitioner_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("practitioner.practitioner_id"), primary_key=True, nullable=False)
-    identification_type_id: Mapped[int] = mapped_column(Integer, ForeignKey("identification_type.identification_type_id"), primary_key=True, nullable=False)
+    practitioner_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("silver.practitioner.practitioner_id"), primary_key=True, nullable=False)
+    identification_type_id: Mapped[int] = mapped_column(Integer, ForeignKey("silver.identification_type.identification_type_id"), primary_key=True, nullable=False)
     identification_value: Mapped[str] = mapped_column(String(50), primary_key=True, nullable=False)
     period_start_date: Mapped[date] = mapped_column(Date, nullable=False)
     period_end_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)

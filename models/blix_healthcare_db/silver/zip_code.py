@@ -23,6 +23,7 @@ from models.base import Base
 
 class ZipCode(Base):
     __tablename__ = "zip_code"
+    __table_args__ = {"schema": "silver"}
 
     zip_code: Mapped[str] = mapped_column(String(5), primary_key=True, nullable=False)
     state_id: Mapped[int] = mapped_column(Integer, ForeignKey("state.state_id"), nullable=False)
