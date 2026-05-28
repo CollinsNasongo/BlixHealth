@@ -2,7 +2,7 @@ from uuid import uuid4
 
 from sqlalchemy.orm import Session
 
-from etl.config.conn import get_engine
+from etl.database_conn.conn import get_engine
 from etl.utils.logger import log_dataset_run
 
 

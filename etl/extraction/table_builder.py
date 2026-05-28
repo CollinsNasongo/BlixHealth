@@ -11,7 +11,7 @@ from sqlalchemy import (
     DateTime,
 )
 
-from etl.config.paths import (
+from etl.database_conn.paths import (
     BRONZE_DIR,
     BRONZE_TO_SILVER_MAPPINGS_DIR
 )

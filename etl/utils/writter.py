@@ -6,7 +6,7 @@ import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-from etl.config.paths import LANDING_DIR, LOGS_DIR, BRONZE_DIR
+from etl.database_conn.paths import LANDING_DIR, LOGS_DIR, BRONZE_DIR
 from etl.utils.logger import log_dataset_run
 
 LOG_PATH = Path(LOGS_DIR) / "dataset_processing_logs.csv"

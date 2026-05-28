@@ -3,7 +3,7 @@ from datetime import datetime
 from airflow import DAG
 from airflow.providers.standard.operators.python import PythonOperator
 
-from etl.config.conn import get_engine
+from etl.database_conn.conn import get_engine
 
 from models import registry
 

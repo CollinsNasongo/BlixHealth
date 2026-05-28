@@ -5,7 +5,7 @@ import pandas as pd
 
 from airflow import DAG
 from airflow.providers.standard.operators.python import PythonOperator
-from etl.config.conn import get_engine
+from etl.database_conn.conn import get_engine
 
 from etl.extraction.table_builder import (
     load_mapping,
