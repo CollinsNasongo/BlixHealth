@@ -53,3 +53,8 @@ def to_decimal(source: pd.Series) -> pd.Series:
 
 def to_string(source: pd.Series) -> pd.Series:
     return source.astype(str)
+
+
+# Verify length of string
+def verify_length(source: pd.Series, expected_length: int) -> pd.Series:
+    return source.astype(str).str.len() == expected_length

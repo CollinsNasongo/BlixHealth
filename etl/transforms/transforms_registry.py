@@ -7,6 +7,7 @@ from etl.transforms.transform_functions import (
     substring,
     to_decimal,
     to_string,
+    verify_length,
 )
 
 SYSTEM_TRANSFORMS = {
@@ -23,4 +24,5 @@ TRANSFORM_REGISTRY = {
     "to_integer": to_integer,
     "to_decimal": to_decimal,
     "to_string": to_string,
+    "verify_length": verify_length,
 }
