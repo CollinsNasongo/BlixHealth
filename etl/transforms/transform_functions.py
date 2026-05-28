@@ -45,4 +45,11 @@ def to_integer(source: pd.Series) -> pd.Series:
         errors="coerce"
     ).astype("Int64")
 
+def to_decimal(source: pd.Series) -> pd.Series:
+    return pd.to_numeric(
+        source,
+        errors="coerce"
+    ).astype("float")  
 
+def to_string(source: pd.Series) -> pd.Series:
+    return source.astype(str)

@@ -5,6 +5,8 @@ from etl.transforms.transform_functions import (
     to_datetime,
     to_integer,
     substring,
+    to_decimal,
+    to_string,
 )
 
 SYSTEM_TRANSFORMS = {
@@ -16,7 +18,9 @@ TRANSFORM_REGISTRY = {
     "lower": lower,
     "strip": strip,
     "trim": strip,
+    "substring": substring,
     "to_datetime": to_datetime,
     "to_integer": to_integer,
-    "substring": substring,
+    "to_decimal": to_decimal,
+    "to_string": to_string,
 }
