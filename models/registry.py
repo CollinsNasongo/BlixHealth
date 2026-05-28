@@ -1,104 +1,104 @@
 from models.base import Base
 
-from models.blixhealth.silver.practitioner import Practitioner
-from models.blixhealth.silver.organization import Organization
-from models.blixhealth.silver.location import Location
-from models.blixhealth.silver.practice import Practice
+from models.blix_healthcare_db.silver.practitioner import Practitioner
+from models.blix_healthcare_db.silver.organization import Organization
+from models.blix_healthcare_db.silver.location import Location
+from models.blix_healthcare_db.silver.practice import Practice
 
-from models.blixhealth.silver.state import State
-from models.blixhealth.silver.county import County
-from models.blixhealth.silver.zip_code import ZipCode
-from models.blixhealth.silver.language import Language
-from models.blixhealth.silver.marital_status import MaritalStatus
-from models.blixhealth.silver.preference import Preference
-from models.blixhealth.silver.taxonomy_code import TaxonomyCode
-from models.blixhealth.silver.certification import Certification
-from models.blixhealth.silver.license_type import LicenseType
-from models.blixhealth.silver.practice_type import PracticeType
-from models.blixhealth.silver.email_type import EmailType
-from models.blixhealth.silver.identification_type import IdentificationType
-from models.blixhealth.silver.telephone_number_type import TelephoneNumberType
-from models.blixhealth.silver.healthcare_specialty import HealthcareSpecialty
+from models.blix_healthcare_db.silver.state import State
+from models.blix_healthcare_db.silver.county import County
+from models.blix_healthcare_db.silver.zip_code import ZipCode
+from models.blix_healthcare_db.silver.language import Language
+from models.blix_healthcare_db.silver.marital_status import MaritalStatus
+from models.blix_healthcare_db.silver.preference import Preference
+from models.blix_healthcare_db.silver.taxonomy_code import TaxonomyCode
+from models.blix_healthcare_db.silver.certification import Certification
+from models.blix_healthcare_db.silver.license_type import LicenseType
+from models.blix_healthcare_db.silver.practice_type import PracticeType
+from models.blix_healthcare_db.silver.email_type import EmailType
+from models.blix_healthcare_db.silver.identification_type import IdentificationType
+from models.blix_healthcare_db.silver.telephone_number_type import TelephoneNumberType
+from models.blix_healthcare_db.silver.healthcare_specialty import HealthcareSpecialty
 
-from models.blixhealth.silver.practitioner_identification import PractitionerIdentification
-from models.blixhealth.silver.practitioner_license import PractitionerLicense
-from models.blixhealth.silver.practitioner_education import PractitionerEducation
-from models.blixhealth.silver.practitioner_email import PractitionerEmail
-from models.blixhealth.silver.practitioner_telephone_number import PractitionerTelephoneNumber
-from models.blixhealth.silver.practitioner_specialty import PractitionerSpecialty
-from models.blixhealth.silver.practitioner_taxonomy_code import PractitionerTaxonomyCode
-from models.blixhealth.silver.practitioner_language_usage import PractitionerLanguageUsage
-from models.blixhealth.silver.practitioner_practice import PractitionerPractice
-from models.blixhealth.silver.practitioner_certification import PractitionerCertification
-from models.blixhealth.silver.practitioner_marital_status import PractitionerMaritalStatus
+from models.blix_healthcare_db.silver.practitioner_identification import PractitionerIdentification
+from models.blix_healthcare_db.silver.practitioner_license import PractitionerLicense
+from models.blix_healthcare_db.silver.practitioner_education import PractitionerEducation
+from models.blix_healthcare_db.silver.practitioner_email import PractitionerEmail
+from models.blix_healthcare_db.silver.practitioner_telephone_number import PractitionerTelephoneNumber
+from models.blix_healthcare_db.silver.practitioner_specialty import PractitionerSpecialty
+from models.blix_healthcare_db.silver.practitioner_taxonomy_code import PractitionerTaxonomyCode
+from models.blix_healthcare_db.silver.practitioner_language_usage import PractitionerLanguageUsage
+from models.blix_healthcare_db.silver.practitioner_practice import PractitionerPractice
+from models.blix_healthcare_db.silver.practitioner_certification import PractitionerCertification
+from models.blix_healthcare_db.silver.practitioner_marital_status import PractitionerMaritalStatus
 
-from models.blixhealth.silver.organization_email import OrganizationEmail
-from models.blixhealth.silver.organization_location import OrganizationLocation
-from models.blixhealth.silver.organization_taxonomy_code import OrganizationTaxonomyCode
-from models.blixhealth.silver.organization_telephone_number import OrganizationTelephoneNumber
+from models.blix_healthcare_db.silver.organization_email import OrganizationEmail
+from models.blix_healthcare_db.silver.organization_location import OrganizationLocation
+from models.blix_healthcare_db.silver.organization_taxonomy_code import OrganizationTaxonomyCode
+from models.blix_healthcare_db.silver.organization_telephone_number import OrganizationTelephoneNumber
 
 
-from models.blixhealth.bronze.member import Member
-from models.blixhealth.bronze.encounter import Encounter
-from models.blixhealth.bronze.provider import Provider
-from models.blixhealth.bronze.us_zip import UsZip
-from models.blixhealth.bronze.taxonomy import Taxonomy
+from models.blix_healthcare_db.bronze.member import Member
+from models.blix_healthcare_db.bronze.encounter import Encounter
+from models.blix_healthcare_db.bronze.provider import Provider
+from models.blix_healthcare_db.bronze.us_zip import UsZip
+from models.blix_healthcare_db.bronze.taxonomy import Taxonomy
 
-from models.blixhealth.audit.data_move_log import DataMoveLog
+from models.blix_healthcare_db.audit.data_move_log import DataMoveLog
 
 
 MODEL_REGISTRY = {
 
     # Core
-    ("blixhealth", "silver", "practitioner"): Practitioner,
-    ("blixhealth", "silver", "organization"): Organization,
-    ("blixhealth", "silver", "location"): Location,
-    ("blixhealth", "silver", "practice"): Practice,
+    ("blix_healthcare_db", "silver", "practitioner"): Practitioner,
+    ("blix_healthcare_db", "silver", "organization"): Organization,
+    ("blix_healthcare_db", "silver", "location"): Location,
+    ("blix_healthcare_db", "silver", "practice"): Practice,
 
     # Reference
-    ("blixhealth", "silver", "state"): State,
-    ("blixhealth", "silver", "county"): County,
-    ("blixhealth", "silver", "zip_code"): ZipCode,
-    ("blixhealth", "silver", "language"): Language,
-    ("blixhealth", "silver", "marital_status"): MaritalStatus,
-    ("blixhealth", "silver", "preference"): Preference,
-    ("blixhealth", "silver", "taxonomy_code"): TaxonomyCode,
-    ("blixhealth", "silver", "certification"): Certification,
-    ("blixhealth", "silver", "license_type"): LicenseType,
-    ("blixhealth", "silver", "practice_type"): PracticeType,
-    ("blixhealth", "silver", "email_type"): EmailType,
-    ("blixhealth", "silver", "identification_type"): IdentificationType,
-    ("blixhealth", "silver", "telephone_number_type"): TelephoneNumberType,
-    ("blixhealth", "silver", "healthcare_specialty"): HealthcareSpecialty,
+    ("blix_healthcare_db", "silver", "state"): State,
+    ("blix_healthcare_db", "silver", "county"): County,
+    ("blix_healthcare_db", "silver", "zip_code"): ZipCode,
+    ("blix_healthcare_db", "silver", "language"): Language,
+    ("blix_healthcare_db", "silver", "marital_status"): MaritalStatus,
+    ("blix_healthcare_db", "silver", "preference"): Preference,
+    ("blix_healthcare_db", "silver", "taxonomy_code"): TaxonomyCode,
+    ("blix_healthcare_db", "silver", "certification"): Certification,
+    ("blix_healthcare_db", "silver", "license_type"): LicenseType,
+    ("blix_healthcare_db", "silver", "practice_type"): PracticeType,
+    ("blix_healthcare_db", "silver", "email_type"): EmailType,
+    ("blix_healthcare_db", "silver", "identification_type"): IdentificationType,
+    ("blix_healthcare_db", "silver", "telephone_number_type"): TelephoneNumberType,
+    ("blix_healthcare_db", "silver", "healthcare_specialty"): HealthcareSpecialty,
 
     # Practitioner Bridges
-    ("blixhealth", "silver", "practitioner_identification"): PractitionerIdentification,
-    ("blixhealth", "silver", "practitioner_license"): PractitionerLicense,
-    ("blixhealth", "silver", "practitioner_education"): PractitionerEducation,
-    ("blixhealth", "silver", "practitioner_email"): PractitionerEmail,
-    ("blixhealth", "silver", "practitioner_telephone_number"): PractitionerTelephoneNumber,
-    ("blixhealth", "silver", "practitioner_specialty"): PractitionerSpecialty,
-    ("blixhealth", "silver", "practitioner_taxonomy_code"): PractitionerTaxonomyCode,
-    ("blixhealth", "silver", "practitioner_language_usage"): PractitionerLanguageUsage,
-    ("blixhealth", "silver", "practitioner_practice"): PractitionerPractice,
-    ("blixhealth", "silver", "practitioner_certification"): PractitionerCertification,
-    ("blixhealth", "silver", "practitioner_marital_status"): PractitionerMaritalStatus,
+    ("blix_healthcare_db", "silver", "practitioner_identification"): PractitionerIdentification,
+    ("blix_healthcare_db", "silver", "practitioner_license"): PractitionerLicense,
+    ("blix_healthcare_db", "silver", "practitioner_education"): PractitionerEducation,
+    ("blix_healthcare_db", "silver", "practitioner_email"): PractitionerEmail,
+    ("blix_healthcare_db", "silver", "practitioner_telephone_number"): PractitionerTelephoneNumber,
+    ("blix_healthcare_db", "silver", "practitioner_specialty"): PractitionerSpecialty,
+    ("blix_healthcare_db", "silver", "practitioner_taxonomy_code"): PractitionerTaxonomyCode,
+    ("blix_healthcare_db", "silver", "practitioner_language_usage"): PractitionerLanguageUsage,
+    ("blix_healthcare_db", "silver", "practitioner_practice"): PractitionerPractice,
+    ("blix_healthcare_db", "silver", "practitioner_certification"): PractitionerCertification,
+    ("blix_healthcare_db", "silver", "practitioner_marital_status"): PractitionerMaritalStatus,
 
     # Organization Bridges
-    ("blixhealth", "silver", "organization_email"): OrganizationEmail,
-    ("blixhealth", "silver", "organization_location"): OrganizationLocation,
-    ("blixhealth", "silver", "organization_taxonomy_code"): OrganizationTaxonomyCode,
-    ("blixhealth", "silver", "organization_telephone_number"): OrganizationTelephoneNumber,
+    ("blix_healthcare_db", "silver", "organization_email"): OrganizationEmail,
+    ("blix_healthcare_db", "silver", "organization_location"): OrganizationLocation,
+    ("blix_healthcare_db", "silver", "organization_taxonomy_code"): OrganizationTaxonomyCode,
+    ("blix_healthcare_db", "silver", "organization_telephone_number"): OrganizationTelephoneNumber,
 
     # Bronze
-    ("blixhealth", "bronze", "member"): Member,
-    ("blixhealth", "bronze", "encounter"): Encounter,
-    ("blixhealth", "bronze", "provider"): Provider,
-    ("blixhealth", "bronze", "us_zip"): UsZip,
-    ("blixhealth", "bronze", "taxonomy"): Taxonomy,
+    ("blix_healthcare_db", "bronze", "member"): Member,
+    ("blix_healthcare_db", "bronze", "encounter"): Encounter,
+    ("blix_healthcare_db", "bronze", "provider"): Provider,
+    ("blix_healthcare_db", "bronze", "us_zip"): UsZip,
+    ("blix_healthcare_db", "bronze", "taxonomy"): Taxonomy,
 
     # Audit
-    ("blixhealth", "audit", "data_move_log"): DataMoveLog,
+    ("blix_healthcare_db", "audit", "data_move_log"): DataMoveLog,
 }
 
 # =====================================================

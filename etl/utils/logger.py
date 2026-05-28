@@ -1,26 +1,16 @@
-from csv import DictWriter
 from datetime import datetime, timezone
-from pathlib import Path
+
+from sqlalchemy.orm import Session
+
+from models.registry import get_model
+
 
 # =========================================================
 # LOGGING
 # =========================================================
 
-LOG_FIELDS = [
-    "run_id",
-    "dataset",
-    "source_file",
-    "target_file",
-    "status",
-    "records_processed",
-    "error_message",
-    "run_timestamp",
-]
-
-LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
-
-
 def log_dataset_run(
+    session: Session,
     run_id: str,
     dataset: str,
     source_file: str,
@@ -30,26 +20,33 @@ def log_dataset_run(
     error_message: str | None = None,
 ) -> None:
 
-    record = {
-        "run_id": run_id,
-        "dataset": dataset,
-        "source_file": source_file,
-        "target_file": target_file,
-        "status": status,
-        "records_processed": records_processed,
-        "error_message": error_message,
-        "run_timestamp": datetime.now(timezone.utc).isoformat(),
-    }
+    LogModel = get_model(
+        "blix_healthcare_db",
+        "audit",
+        "data_move_log"
+    )
 
-    write_header = not LOG_PATH.exists()
+    try:
 
-    with LOG_PATH.open("a", newline="", encoding="utf-8") as f:
-        writer = DictWriter(
-            f,
-            fieldnames=LOG_FIELDS
+        log_record = LogModel(
+            run_id=run_id,
+            dataset=dataset,
+            source_file=source_file,
+            target_file=target_file,
+            status=status,
+            records_processed=records_processed,
+            error_message=error_message,
+            run_timestamp=datetime.now(timezone.utc),
         )
 
-        if write_header:
-            writer.writeheader()
+        session.add(log_record)
+        session.commit()
 
-        writer.writerow(record)
+    except Exception as e:
+
+        session.rollback()
+
+        print(
+            f"[LOGGER ERROR] "
+            f"Failed to log pipeline run: {e}"
+        )

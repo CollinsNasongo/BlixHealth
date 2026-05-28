@@ -17,7 +17,9 @@ from models.base import Base
 class DataMoveLog(Base):
     __tablename__ = "audit_ingestion_log"
 
-    run_id: Mapped[str] = mapped_column(String(100), primary_key=True, nullable=False)
+    log_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+
+    run_id: Mapped[str] = mapped_column(String(100), nullable=False)
 
     dataset: Mapped[Optional[str]] = mapped_column(String(255))
 
