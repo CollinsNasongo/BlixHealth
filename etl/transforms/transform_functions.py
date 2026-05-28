@@ -54,6 +54,9 @@ def to_decimal(source: pd.Series) -> pd.Series:
 def to_string(source: pd.Series) -> pd.Series:
     return source.astype(str)
 
+def to_boolean(source: pd.Series) -> pd.Series:
+    return source.astype(bool)
+
 
 # Verify length of string
 def verify_length(source: pd.Series, expected_length: int) -> pd.Series:
