@@ -26,8 +26,8 @@ class Location(Base):
     __table_args__ = {"schema": "silver"}
 
     location_id: Mapped[Optional[int]] = mapped_column(Integer, primary_key=True, autoincrement=True, nullable=True)
-    zip_code: Mapped[str] = mapped_column(String(5), ForeignKey("zip_code.zip_code"), nullable=False)
-    county_fips_code: Mapped[str] = mapped_column(String(5), ForeignKey("county.county_fips_code"), nullable=False)
+    zip_code: Mapped[str] = mapped_column(String(5), ForeignKey("silver.zip_code.zip_code"), nullable=False)
+    county_fips_code: Mapped[str] = mapped_column(String(5), ForeignKey("silver.county.county_fips_code"), nullable=False)
     address_line_1: Mapped[str] = mapped_column(String(255), nullable=False)
     address_line_2: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     city: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)

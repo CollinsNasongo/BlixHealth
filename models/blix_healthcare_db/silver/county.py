@@ -26,6 +26,6 @@ class County(Base):
     __table_args__ = {"schema": "silver"}
 
     county_fips_code: Mapped[str] = mapped_column(String(5), primary_key=True, nullable=False)
-    state_id: Mapped[int] = mapped_column(Integer, ForeignKey("state.state_id"), nullable=False)
+    state_id: Mapped[int] = mapped_column(Integer, ForeignKey("silver.state.state_id"), nullable=False)
     county_code: Mapped[str] = mapped_column(String(3), nullable=False)
     county_name: Mapped[str] = mapped_column(String(100), nullable=False)
