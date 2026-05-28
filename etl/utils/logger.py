@@ -2,12 +2,9 @@ from csv import DictWriter
 from datetime import datetime, timezone
 from pathlib import Path
 
-from etl.config.paths import LOGS_DIR
-
 # =========================================================
 # LOGGING
 # =========================================================
-LOG_PATH = Path(LOGS_DIR) / "dataset_processing_logs.csv"
 
 LOG_FIELDS = [
     "run_id",

@@ -44,6 +44,8 @@ from models.blixhealth.bronze.provider import Provider
 from models.blixhealth.bronze.us_zip import UsZip
 from models.blixhealth.bronze.taxonomy import Taxonomy
 
+from models.blixhealth.audit.data_move_log import DataMoveLog
+
 
 MODEL_REGISTRY = {
 
@@ -94,6 +96,9 @@ MODEL_REGISTRY = {
     ("blixhealth", "bronze", "provider"): Provider,
     ("blixhealth", "bronze", "us_zip"): UsZip,
     ("blixhealth", "bronze", "taxonomy"): Taxonomy,
+
+    # Audit
+    ("blixhealth", "audit", "data_move_log"): DataMoveLog,
 }
 
 # =====================================================
