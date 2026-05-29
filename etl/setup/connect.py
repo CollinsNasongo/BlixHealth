@@ -3,7 +3,7 @@ from urllib.parse import quote_plus
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 
-from etl.database_conn.settings import (
+from etl.setup.settings import (
     MSSQL_HOST,
     MSSQL_PORT,
     MSSQL_DATABASE,

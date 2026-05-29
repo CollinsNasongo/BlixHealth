@@ -1,12 +1,9 @@
-from datetime import datetime
-from uuid import uuid4
-
 from airflow import DAG
 from airflow.providers.standard.operators.python import PythonOperator
-
+from datetime import datetime
+from uuid import uuid4
 from sqlalchemy.orm import Session
-
-from etl.database_conn.conn import get_engine
+from etl.setup.connect import get_engine
 from etl.utils.logger import log_dataset_run
 
 

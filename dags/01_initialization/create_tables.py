@@ -1,12 +1,10 @@
-from datetime import datetime
-
 from airflow import DAG
 from airflow.providers.standard.operators.python import PythonOperator
 
-from etl.database_conn.conn import get_engine
+from datetime import datetime
 
+from etl.setup.connect import get_engine
 from models import registry
-
 from models.base import Base
 
 
