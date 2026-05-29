@@ -16,8 +16,6 @@ from etl.transforms.transforms_registry import (
 from models.registry import get_model
 from models.base import Base
 from sqlalchemy.engine import Engine
-from airflow.utils.log.logging_mixin import LoggingMixin
-logger = LoggingMixin().log
 
 
 # =========================================================
