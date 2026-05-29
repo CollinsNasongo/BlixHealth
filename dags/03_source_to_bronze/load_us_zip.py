@@ -87,15 +87,6 @@ def load_data_task(
 
             run_id = str(uuid4())
 
-            log_dataset_run(
-                session=session,
-                run_id=run_id,
-                dataset=dataset_name,
-                source_file=source_file,
-                target_file="blix_healthcare_db.bronze.us_zip",
-                status="STARTED",
-            )
-
             try:
 
                 source_df = pd.read_csv(source_file)
