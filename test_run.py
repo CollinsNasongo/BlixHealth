@@ -1,81 +1,28 @@
-from uuid import uuid4
+from pathlib import Path
 
-from sqlalchemy.orm import Session
+from sqlalchemy.dialects import mssql
+from sqlalchemy.schema import CreateTable
 
-from etl.database_conn.conn import get_engine
-from etl.utils.logger import log_dataset_run
+from models.registry import MODEL_REGISTRY
 
 
-def main():
+ddl_lines = []
 
-    try:
-
-        engine = get_engine()
-
-        run_id = str(uuid4())
-
-        with Session(engine) as session:
-
-            # =====================================================
-            # RETRY 1 - FAILURE
-            # =====================================================
-
-            log_dataset_run(
-                session=session,
-                run_id=run_id,
-                dataset="member",
-                source_file="member.csv",
-                target_file="bronze.member",
-                status="FAILED",
-                records_processed=0,
-                error_message="Connection timeout while reading source file.",
+for model in MODEL_REGISTRY.values():
+    ddl_lines.append(
+        str(
+            CreateTable(model.__table__).compile(
+                dialect=mssql.dialect()
             )
-
-            print("Retry 1 logged.")
-
-            # =====================================================
-            # RETRY 2 - FAILURE
-            # =====================================================
-
-            log_dataset_run(
-                session=session,
-                run_id=run_id,
-                dataset="member",
-                source_file="member.csv",
-                target_file="bronze.member",
-                status="FAILED",
-                records_processed=25,
-                error_message="Primary key violation during insert.",
-            )
-
-            print("Retry 2 logged.")
-
-            # =====================================================
-            # RETRY 3 - SUCCESS
-            # =====================================================
-
-            log_dataset_run(
-                session=session,
-                run_id=run_id,
-                dataset="member",
-                source_file="member.csv",
-                target_file="bronze.member",
-                status="SUCCESS",
-                records_processed=100,
-                error_message=None,
-            )
-
-            print("Final retry logged successfully.")
-
-        print(f"Pipeline run completed: {run_id}")
-
-    except Exception as e:
-
-        print(
-            f"[TEST LOGGER ERROR] "
-            f"Failed to write log: {e}"
         )
+    )
+    ddl_lines.append("GO\n")
 
+output_file = Path("generated_schema.sql")
 
-if __name__ == "__main__":
-    main()
+output_file.write_text(
+    "\n".join(ddl_lines),
+    encoding="utf-8",
+)
+
+print(f"DDL written to {output_file.resolve()}")

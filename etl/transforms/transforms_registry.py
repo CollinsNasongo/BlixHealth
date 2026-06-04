@@ -8,7 +8,8 @@ from etl.transforms.transform_functions import (
     to_decimal,
     to_string,
     verify_length,
-    to_boolean
+    to_boolean,
+    to_date
 )
 
 SYSTEM_TRANSFORMS = {
@@ -28,5 +29,6 @@ TRANSFORM_REGISTRY = {
     "to_decimal": to_decimal,
     "to_string": to_string,
     "verify_length": verify_length,
-    "to_boolean": to_boolean
+    "to_boolean": to_boolean,
+    "to_date": to_date
 }

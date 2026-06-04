@@ -38,6 +38,13 @@ def substring(source: pd.Series, start: int, length: int) -> pd.Series:
 def to_datetime(source: pd.Series) -> pd.Series:
     return pd.to_datetime(source)
 
+def to_date(source: pd.Series) -> pd.Series:
+    return pd.to_datetime(
+        source,
+        format="mixed",
+        dayfirst=True,
+        errors="coerce"
+    ).dt.date
 
 def to_integer(source: pd.Series) -> pd.Series:
     return pd.to_numeric(
@@ -55,7 +62,36 @@ def to_string(source: pd.Series) -> pd.Series:
     return source.astype(str)
 
 def to_boolean(source: pd.Series) -> pd.Series:
-    return source.astype(bool)
+
+    true_values = {
+        "true", "t", "yes", "y", "1"
+    }
+
+    false_values = {
+        "false", "f", "no", "n", "0"
+    }
+
+    def convert(value):
+
+        if pd.isna(value):
+            return None
+
+        value = str(value).strip().lower()
+
+        if value == "":
+            return None
+
+        if value in true_values:
+            return True
+
+        if value in false_values:
+            return False
+
+        raise ValueError(
+            f"Cannot convert '{value}' to boolean"
+        )
+
+    return source.apply(convert)
 
 
 # Verify length of string

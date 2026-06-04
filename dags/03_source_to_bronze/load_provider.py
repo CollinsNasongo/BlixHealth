@@ -16,7 +16,7 @@ from models.registry import get_model
 logger = LoggingMixin().log
 engine = get_engine()
 
-dataset_name = "us_zip"
+dataset_name = "provider"
 mapping_type = "source_to_bronze"
 
 mapping_df = pd.DataFrame()
@@ -26,7 +26,7 @@ source_files = [Path()]
 MappingModel = get_model(
         "blix_healthcare_db",
         "bronze",
-        "us_zip"
+        "provider"
     )
 
 
@@ -108,7 +108,7 @@ def load_data_task(source_files: list[str], mapping_df: pd.DataFrame) -> None:
                     run_id=run_id,
                     dataset=dataset_name,
                     source_file=source_file,
-                    target_file="blix_healthcare_db.bronze.us_zip",
+                    target_file="blix_healthcare_db.bronze.provider",
                     status="SUCCESS",
                     records_processed=len(transformed_df),
                 )
@@ -120,7 +120,7 @@ def load_data_task(source_files: list[str], mapping_df: pd.DataFrame) -> None:
                     run_id=run_id,
                     dataset=dataset_name,
                     source_file=source_file,
-                    target_file="blix_healthcare_db.bronze.us_zip",
+                    target_file="blix_healthcare_db.bronze.provider",
                     status="FAILED",
                     error_message=str(e),
                 )
@@ -138,7 +138,7 @@ def load_data_task(source_files: list[str], mapping_df: pd.DataFrame) -> None:
 
 
 with DAG(
-    dag_id="load_us_zip",
+    dag_id="load_provider",
     start_date=datetime(2024, 1, 1),
     schedule="@daily",
     catchup=False,
