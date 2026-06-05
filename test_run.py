@@ -1,28 +1,12 @@
-from pathlib import Path
+from etl.database.settings import BLIX_HEALTH_CONFIG
+from etl.database.connection import DatabaseConnector
 
-from sqlalchemy.dialects import mssql
-from sqlalchemy.schema import CreateTable
+db = DatabaseConnector.create(BLIX_HEALTH_CONFIG)
 
-from models.registry import MODEL_REGISTRY
+#print(db.build_connection_string())
 
-
-ddl_lines = []
-
-for model in MODEL_REGISTRY.values():
-    ddl_lines.append(
-        str(
-            CreateTable(model.__table__).compile(
-                dialect=mssql.dialect()
-            )
-        )
-    )
-    ddl_lines.append("GO\n")
-
-output_file = Path("generated_schema.sql")
-
-output_file.write_text(
-    "\n".join(ddl_lines),
-    encoding="utf-8",
-)
-
-print(f"DDL written to {output_file.resolve()}")
+try:
+    with db.connect() as conn:
+        print("Connection successful")
+except Exception as e:
+    print(f"Connection failed: {e}")

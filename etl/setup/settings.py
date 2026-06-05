@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-
 MSSQL_HOST = os.getenv("MSSQL_HOST")
 MSSQL_PORT = os.getenv("MSSQL_PORT", "1433")
 MSSQL_DATABASE = os.getenv("MSSQL_DATABASE")
