@@ -10,7 +10,7 @@
 *.userosscache
 *.sln.docstates
 *.env
-*.venv
+*.blix_health_venv
 
 config/
 data/

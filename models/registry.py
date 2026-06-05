@@ -4,7 +4,6 @@ from models.blix_healthcare_db.silver.practitioner import Practitioner
 from models.blix_healthcare_db.silver.organization import Organization
 from models.blix_healthcare_db.silver.location import Location
 from models.blix_healthcare_db.silver.practice import Practice
-
 from models.blix_healthcare_db.silver.state import State
 from models.blix_healthcare_db.silver.county import County
 from models.blix_healthcare_db.silver.zip_code import ZipCode
@@ -19,7 +18,6 @@ from models.blix_healthcare_db.silver.email_type import EmailType
 from models.blix_healthcare_db.silver.identification_type import IdentificationType
 from models.blix_healthcare_db.silver.telephone_number_type import TelephoneNumberType
 from models.blix_healthcare_db.silver.healthcare_specialty import HealthcareSpecialty
-
 from models.blix_healthcare_db.silver.practitioner_identification import PractitionerIdentification
 from models.blix_healthcare_db.silver.practitioner_license import PractitionerLicense
 from models.blix_healthcare_db.silver.practitioner_education import PractitionerEducation
@@ -31,7 +29,6 @@ from models.blix_healthcare_db.silver.practitioner_language_usage import Practit
 from models.blix_healthcare_db.silver.practitioner_practice import PractitionerPractice
 from models.blix_healthcare_db.silver.practitioner_certification import PractitionerCertification
 from models.blix_healthcare_db.silver.practitioner_marital_status import PractitionerMaritalStatus
-
 from models.blix_healthcare_db.silver.organization_email import OrganizationEmail
 from models.blix_healthcare_db.silver.organization_location import OrganizationLocation
 from models.blix_healthcare_db.silver.organization_taxonomy_code import OrganizationTaxonomyCode
